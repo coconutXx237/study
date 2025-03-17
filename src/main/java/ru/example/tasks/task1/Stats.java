@@ -24,31 +24,21 @@ public class Stats {
     }
 
     public Map<String, Long> getTop5ByGenre() {
-        Map<String, Long> genresTop = filmsList.stream()
+        return filmsList.stream()
                 .collect(Collectors.groupingBy(Film::getGenre, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(5)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new));
-        return genresTop;
+                .collect(StatsCollector.toLinkedHashMap());
     }
 
     public Map<String, Long> getTop5ByLanguage() {
-        Map<String, Long> languagesTop = filmsList.stream()
+        return filmsList.stream()
                 .collect(Collectors.groupingBy(Film::getLanguage, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(5)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new));
-        return languagesTop;
+                .collect(StatsCollector.toLinkedHashMap());
     }
 
     public Film getLatestFilm() {
@@ -80,15 +70,10 @@ public class Stats {
     }
 
     public Map<Integer, List<Film>> getYearlyBestWorstRatings() {
-        Map<Integer, List<Film>> filmsByYear = filmsList.stream()
+        return filmsList.stream()
                 .collect(Collectors.groupingBy(film -> film.getPremiere().getYear()))
                 .entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new));
-        return filmsByYear;
+                .collect(StatsCollector.toLinkedHashMap());
     }
 }
