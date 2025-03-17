@@ -11,9 +11,9 @@ public class Task4Main {
         System.out.println(convertedList);
     }
 
-    public static List<String> convert(List<Integer> list, Function<Integer, String> func) {
+    public static<T, R> List<R> convert(List<T> list, Function<T, R> func) {
         return list.stream().
-                map(el -> func.apply(el))
+                map(func)
                 .collect(Collectors.toList());
     }
 }
